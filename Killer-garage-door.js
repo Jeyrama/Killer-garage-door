@@ -90,3 +90,27 @@ function door(events) {
 }
 
 // or
+
+function door(events) {
+  let dir = 0, paused = true, prev = 0
+  return [...events].map(x => {
+    if (x == '.') {
+      if ((dir > 0 && prev == 5) || (dir < 0 && prev == 0)) paused = true
+      if (paused) return prev
+      return prev += dir
+    }
+    if (x == 'P') {
+      if (paused) {
+        if (prev == 5) dir = -1
+        else if (prev == 0) dir = 1
+        paused = false
+        return prev += dir
+      }
+      paused = true
+      return prev
+    }
+    // x == 'O'
+    dir = -dir
+    return prev += dir
+  }).join``
+}
