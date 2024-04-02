@@ -88,3 +88,5 @@ function door(events) {
   
   return res;
 }
+
+// or
