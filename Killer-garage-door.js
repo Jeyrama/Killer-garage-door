@@ -35,3 +35,56 @@ Example:
 
 
 // Solution
+
+function door(events) {
+  const OPENED = 0;
+  const CLOSED = 1;
+  const OPENING = 2;
+  const CLOSING = 3;
+  const PAUSED_OPENING = 4;
+  const PAUSED_CLOSING = 5;
+
+  let state = 1;
+  let pos = 0;
+  let res = '';
+
+  for (let event of events) {
+    switch (state) {
+      case OPENED: 
+        if (event === 'P') state = CLOSING;
+        break;
+
+      case CLOSED:
+        if (event === 'P') state = OPENING;
+        break;
+
+      case OPENING:
+        if (event === 'P') state = PAUSED_OPENING;
+        if (event === 'O') state = CLOSING;
+        if (pos === 5) state = OPENED;
+        break;
+        
+      case CLOSING: 
+        if (event === 'P') state = PAUSED_CLOSING;
+        if (event === 'O') state = OPENING;
+        if (pos === 0) state = CLOSED;
+        break;
+
+      case PAUSED_OPENING: 
+        if (event === 'P') state = OPENING;
+        break;
+
+      case PAUSED_CLOSING:
+        if (event === 'P') state = CLOSING;
+        break;
+    }
+
+    if (state === OPENING)
+      pos += 1;
+    if (state === CLOSING)
+      pos -= 1;
+    res = res + pos;
+  }
+  
+  return res;
+}
